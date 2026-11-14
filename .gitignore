@@ -12,6 +12,15 @@ dist
 dist-ssr
 *.local
 
+# Maxfiy qiymatlar (kalit, token) GitHub'ga ketmasligi uchun
+.env
+.env.*
+!.env.example
+
+# Vercel va test brauzeri qoldiqlari
+.vercel
+.playwright-mcp
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
