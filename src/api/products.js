@@ -11,6 +11,9 @@ export const PAGE_SIZE = 12
 // Kartochka uchun kerakli maydonlar (select orqali faqat shularni olamiz — javob yengil bo'ladi)
 export const CARD_FIELDS = 'title,price,discountPercentage,rating,thumbnail,brand,category'
 
+// 404 xatosining matni: sahifalar "mahsulot topilmadi" holatini shu bilan taniydi
+export const NOT_FOUND_MESSAGE = 'Topilmadi'
+
 // Parametrlar obyektini "?a=1&b=2" ko'rinishiga o'tkazadi, bo'sh qiymatlarni tashlab ketadi
 function buildQuery(params = {}) {
   const query = new URLSearchParams()
@@ -36,7 +39,7 @@ async function request(path, params, signal) {
   if (!response.ok) {
     throw new Error(
       response.status === 404
-        ? 'Topilmadi'
+        ? NOT_FOUND_MESSAGE
         : `Serverda xatolik yuz berdi (${response.status})`,
     )
   }
