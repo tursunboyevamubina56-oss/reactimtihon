@@ -1,5 +1,6 @@
 import { Link, NavLink } from 'react-router'
 import { useCart } from '../hooks/useCart'
+import { useFavorites } from '../hooks/useFavorites'
 import { useTheme } from '../hooks/useTheme'
 import { CartIcon, HeartIcon, MoonIcon, SunIcon } from './icons'
 
@@ -17,9 +18,20 @@ function navLinkClass({ isActive }) {
 const iconButtonClass =
   'inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white'
 
+// Ikonka burchagidagi kichik son belgisi (savat va sevimlilar uchun). 0 bo'lsa ko'rinmaydi.
+function CountBadge({ count }) {
+  if (count < 1) return null
+  return (
+    <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-indigo-600 px-1 text-xs font-bold text-white">
+      {count > 99 ? '99+' : count}
+    </span>
+  )
+}
+
 export default function Header() {
   const { theme, toggleTheme } = useTheme()
   const { count } = useCart()
+  const { count: favoritesCount } = useFavorites()
   const isDark = theme === 'dark'
 
   return (
@@ -40,8 +52,13 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-1">
-          <Link to="/favorites" aria-label="Sevimlilar" className={iconButtonClass}>
+          <Link
+            to="/favorites"
+            aria-label={favoritesCount > 0 ? `Sevimlilar (${favoritesCount} ta)` : 'Sevimlilar'}
+            className={`${iconButtonClass} relative`}
+          >
             <HeartIcon />
+            <CountBadge count={favoritesCount} />
           </Link>
           <Link
             to="/cart"
@@ -49,11 +66,7 @@ export default function Header() {
             className={`${iconButtonClass} relative`}
           >
             <CartIcon />
-            {count > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-indigo-600 px-1 text-xs font-bold text-white">
-                {count > 99 ? '99+' : count}
-              </span>
-            )}
+            <CountBadge count={count} />
           </Link>
           <button
             type="button"
