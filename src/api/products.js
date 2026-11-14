@@ -68,3 +68,24 @@ export function getCategories(signal) {
 export function getProductsByCategory(slug, params = {}, signal) {
   return request(`/products/category/${slug}`, params, signal)
 }
+
+// Katalog sahifasi uchun: qidiruv, kategoriya, saralash va sahifalashni birlashtiradi.
+// Qaytadi: { products, total } — products faqat shu sahifadagi mahsulotlar.
+export async function getCatalogPage({ q, category, sortBy, order, page = 1 }, signal) {
+  const skip = (page - 1) * PAGE_SIZE
+  const base = { select: CARD_FIELDS, sortBy, order }
+
+  if (q) {
+    // API qidiruv va kategoriyani birga qo'llamaydi, shuning uchun hamma natijani olamiz
+    // (limit=0) va kategoriyani o'zimiz filtrlab, sahifalarga bo'lamiz.
+    const data = await searchProducts(q, { ...base, limit: 0 }, signal)
+    const list = category ? data.products.filter((p) => p.category === category) : data.products
+    return { products: list.slice(skip, skip + PAGE_SIZE), total: list.length }
+  }
+
+  const params = { ...base, limit: PAGE_SIZE, skip }
+  const data = category
+    ? await getProductsByCategory(category, params, signal)
+    : await getProducts(params, signal)
+  return { products: data.products, total: data.total }
+}
