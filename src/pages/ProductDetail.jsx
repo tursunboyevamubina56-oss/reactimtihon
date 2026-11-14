@@ -3,11 +3,12 @@ import { Link, useParams } from 'react-router'
 import { getProduct, NOT_FOUND_MESSAGE } from '../api/products'
 import ErrorMessage from '../components/ErrorMessage'
 import ProductGallery from '../components/ProductGallery'
+import PurchasePanel from '../components/PurchasePanel'
 import RelatedProducts from '../components/RelatedProducts'
 import ReviewList from '../components/ReviewList'
 import StarRating from '../components/StarRating'
 import { useFetch } from '../hooks/useFetch'
-import { formatCategory, formatPrice, getDiscountedPrice } from '../utils/format'
+import { formatCategory, formatPrice, getFinalPrice } from '../utils/format'
 import {
   getAvailability,
   translateReturnPolicy,
@@ -67,7 +68,7 @@ export default function ProductDetail() {
 
   const discount = Math.round(product.discountPercentage)
   const hasDiscount = discount >= 1
-  const finalPrice = hasDiscount ? getDiscountedPrice(product.price, product.discountPercentage) : product.price
+  const finalPrice = getFinalPrice(product.price, product.discountPercentage)
   const availability = getAvailability(product.availabilityStatus, product.stock)
 
   const details = [
@@ -131,6 +132,8 @@ export default function ProductDetail() {
           <p className={`mt-4 inline-block rounded-full px-3 py-1 text-sm font-medium ${availability.className}`}>
             {availability.label}
           </p>
+
+          <PurchasePanel key={product.id} product={product} />
 
           <p className="mt-6 leading-relaxed text-slate-700 dark:text-slate-300">{product.description}</p>
 

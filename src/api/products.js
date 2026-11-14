@@ -9,7 +9,7 @@ export const BASE_URL = 'https://dummyjson.com'
 export const PAGE_SIZE = 12
 
 // Kartochka uchun kerakli maydonlar (select orqali faqat shularni olamiz — javob yengil bo'ladi)
-export const CARD_FIELDS = 'title,price,discountPercentage,rating,thumbnail,brand,category'
+export const CARD_FIELDS = 'title,price,discountPercentage,rating,thumbnail,brand,category,stock'
 
 // 404 xatosining matni: sahifalar "mahsulot topilmadi" holatini shu bilan taniydi
 export const NOT_FOUND_MESSAGE = 'Topilmadi'
