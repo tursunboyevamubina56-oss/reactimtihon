@@ -30,3 +30,14 @@ export function formatCategory(slug) {
 export function getDiscountedPrice(price, discountPercentage = 0) {
   return Math.round(price * (1 - discountPercentage / 100) * 100) / 100
 }
+
+// Mahsulotning haqiqiy sotuv narxi. Chegirma 1% dan kam bo'lsa (kartochkada "-0%" chiqmasligi uchun)
+// u hisobga olinmaydi — savat, kartochka va mahsulot sahifasi bir xil narx ko'rsatishi uchun shu funksiya.
+export function getFinalPrice(price, discountPercentage = 0) {
+  return Math.round(discountPercentage) >= 1 ? getDiscountedPrice(price, discountPercentage) : price
+}
+
+// Yig'indi hisoblarda suzuvchi nuqta xatosi (0.1 + 0.2) chiqmasligi uchun tiyinlargacha yaxlitlaydi
+export function roundMoney(value) {
+  return Math.round(value * 100) / 100
+}

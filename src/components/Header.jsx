@@ -1,4 +1,5 @@
 import { Link, NavLink } from 'react-router'
+import { useCart } from '../hooks/useCart'
 import { useTheme } from '../hooks/useTheme'
 import { CartIcon, HeartIcon, MoonIcon, SunIcon } from './icons'
 
@@ -18,6 +19,7 @@ const iconButtonClass =
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme()
+  const { count } = useCart()
   const isDark = theme === 'dark'
 
   return (
@@ -41,8 +43,17 @@ export default function Header() {
           <Link to="/favorites" aria-label="Sevimlilar" className={iconButtonClass}>
             <HeartIcon />
           </Link>
-          <Link to="/cart" aria-label="Savat" className={iconButtonClass}>
+          <Link
+            to="/cart"
+            aria-label={count > 0 ? `Savat (${count} dona)` : 'Savat'}
+            className={`${iconButtonClass} relative`}
+          >
             <CartIcon />
+            {count > 0 && (
+              <span className="absolute -right-0.5 -top-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-indigo-600 px-1 text-xs font-bold text-white">
+                {count > 99 ? '99+' : count}
+              </span>
+            )}
           </Link>
           <button
             type="button"
