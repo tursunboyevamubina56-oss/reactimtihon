@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { Link } from 'react-router'
 import ProductCard from '../components/ProductCard'
 import { useFavorites } from '../hooks/useFavorites'
+import { usePageTitle } from '../hooks/usePageTitle'
 
 export default function Favorites() {
+  usePageTitle('Sevimlilar')
   const { items, count, clearFavorites } = useFavorites()
   const [confirmingClear, setConfirmingClear] = useState(false)
 

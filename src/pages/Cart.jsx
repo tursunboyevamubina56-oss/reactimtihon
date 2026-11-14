@@ -2,10 +2,13 @@ import { useState } from 'react'
 import { Link } from 'react-router'
 import OrderTotals from '../components/OrderTotals'
 import QuantityStepper from '../components/QuantityStepper'
+import SafeImage from '../components/SafeImage'
 import { useCart } from '../hooks/useCart'
+import { usePageTitle } from '../hooks/usePageTitle'
 import { formatPrice, getFinalPrice, roundMoney } from '../utils/format'
 
 export default function Cart() {
+  usePageTitle('Savat')
   const { items, count, originalTotal, savings, total, setQuantity, removeItem, clearCart } = useCart()
   const [confirmingClear, setConfirmingClear] = useState(false)
 
@@ -61,7 +64,7 @@ export default function Cart() {
         )}
       </div>
 
-      <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_22rem]">
+      <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_22rem]">
         <ul className="divide-y divide-slate-200 rounded-xl border border-slate-200 dark:divide-slate-800 dark:border-slate-800">
           {items.map((item) => {
             const unitPrice = getFinalPrice(item.price, item.discountPercentage)
@@ -69,16 +72,20 @@ export default function Cart() {
 
             return (
               <li key={item.id} className="flex gap-4 p-4">
+                {/* Nom havolasi bilan bir xil joyga olib boradi, shuning uchun klaviatura va ekran o'qigichdan yashirilgan */}
                 <Link
                   to={`/products/${item.id}`}
+                  tabIndex={-1}
+                  aria-hidden="true"
                   className="h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800"
                 >
-                  <img src={item.thumbnail} alt={item.title} className="h-full w-full object-contain p-2" />
+                  <SafeImage src={item.thumbnail} alt="" className="h-full w-full object-contain p-2" />
                 </Link>
 
                 <div className="flex min-w-0 flex-1 flex-col gap-2">
-                  <div className="flex justify-between gap-4">
-                    <Link to={`/products/${item.id}`} className="line-clamp-2 font-medium hover:underline">
+                  {/* Telefonda narx nom ostida turadi (aks holda katta narx nomni siqib qo'yadi) */}
+                  <div className="flex flex-col gap-1 sm:flex-row sm:justify-between sm:gap-4">
+                    <Link to={`/products/${item.id}`} className="line-clamp-2 break-words font-medium hover:underline">
                       {item.title}
                     </Link>
                     <p className="shrink-0 font-bold">{formatPrice(roundMoney(unitPrice * item.quantity))}</p>
