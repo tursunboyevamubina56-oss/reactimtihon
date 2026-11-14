@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router'
 import { useCart } from '../hooks/useCart'
 import AddToCartButton from './AddToCartButton'
+import FavoriteButton from './FavoriteButton'
 import QuantityStepper from './QuantityStepper'
 
 // Mahsulot sahifasidagi xarid bloki: miqdor + "Savatga qo'shish".
@@ -18,15 +19,17 @@ export default function PurchasePanel({ product }) {
 
   return (
     <div className="mt-6">
+      {/* Telefonda: yuqorida miqdor va yurakcha, ostida to'liq kenglikdagi tugma. Katta ekranda: hammasi bir qatorda. */}
       <div className="flex flex-wrap items-center gap-3">
         {available > 0 && (
           <QuantityStepper value={shownQuantity} onChange={setQuantity} max={available} />
         )}
+        <FavoriteButton product={product} variant="panel" className="sm:order-last" />
         <AddToCartButton
           product={product}
           quantity={shownQuantity}
           onAdded={() => setQuantity(1)}
-          className="min-w-48 flex-1 sm:flex-none"
+          className="order-last w-full sm:order-none sm:w-auto sm:min-w-48"
         />
       </div>
 

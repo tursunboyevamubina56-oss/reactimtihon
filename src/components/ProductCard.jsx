@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { formatPrice, getFinalPrice } from '../utils/format'
 import AddToCartButton from './AddToCartButton'
+import FavoriteButton from './FavoriteButton'
 import { StarIcon } from './icons'
 
 export default function ProductCard({ product }) {
@@ -12,7 +13,7 @@ export default function ProductCard({ product }) {
   // Kartochka ikki qismdan iborat: tepasi havola (mahsulot sahifasiga), pastida alohida tugma.
   // Tugmani havola ichiga qo'yib bo'lmaydi (interaktiv element ichida interaktiv element).
   return (
-    <div className="group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-shadow hover:shadow-lg dark:border-slate-800 dark:bg-slate-900">
+    <div className="group relative flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-shadow hover:shadow-lg dark:border-slate-800 dark:bg-slate-900">
       <Link to={`/products/${id}`} className="flex flex-1 flex-col">
         <div className="relative aspect-square bg-slate-100 dark:bg-slate-800">
           <img
@@ -48,6 +49,8 @@ export default function ProductCard({ product }) {
           </div>
         </div>
       </Link>
+
+      <FavoriteButton product={product} />
 
       <div className="px-3 pb-3">
         <AddToCartButton product={product} className="w-full" />

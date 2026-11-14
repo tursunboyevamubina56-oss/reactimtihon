@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { getFinalPrice, roundMoney } from '../utils/format'
+import { loadList, saveJson } from '../utils/storage'
 import { CartContext } from './CartContext'
 
 const STORAGE_KEY = 'cart'
@@ -21,26 +22,15 @@ function isValidItem(item) {
   )
 }
 
-function loadItems() {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY))
-    return Array.isArray(parsed) ? parsed.filter(isValidItem) : []
-  } catch {
-    // saqlangan ma'lumot o'qilmasa yoki localStorage yopiq bo'lsa — bo'sh savat bilan boshlaymiz
-    return []
-  }
-}
+// Saqlangan ma'lumot o'qilmasa yoki localStorage yopiq bo'lsa — bo'sh savat bilan boshlaymiz
+const loadItems = () => loadList(STORAGE_KEY, isValidItem)
 
 // Savat: mahsulotlar ro'yxati + hisob-kitob + amallar. Brauzerda saqlanadi (sahifa yangilansa yo'qolmaydi).
 export default function CartProvider({ children }) {
   const [items, setItems] = useState(loadItems)
 
   useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
-    } catch {
-      // saqlab bo'lmasa ham savat sessiya davomida ishlayveradi
-    }
+    saveJson(STORAGE_KEY, items)
   }, [items])
 
   const value = useMemo(() => {
