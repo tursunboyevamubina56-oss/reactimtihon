@@ -55,6 +55,18 @@ export function CartIcon(props) {
   )
 }
 
+// Rasm yuklanmaganda ko'rsatiladigan belgi
+export function ImageOffIcon(props) {
+  return (
+    <Icon {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <circle cx="9" cy="9" r="2" />
+      <path d="m21 15-5-5L5 21" />
+      <path d="M3 3l18 18" />
+    </Icon>
+  )
+}
+
 // To'ldirilgan yulduzcha (reyting uchun)
 export function StarIcon(props) {
   return (

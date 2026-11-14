@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router'
 import OrderTotals from '../components/OrderTotals'
+import SafeImage from '../components/SafeImage'
 import { useCart } from '../hooks/useCart'
+import { usePageTitle } from '../hooks/usePageTitle'
 import { formatPrice, getFinalPrice, roundMoney } from '../utils/format'
 
 const inputClass =
@@ -43,6 +45,7 @@ function Field({ id, label, error, children }) {
 }
 
 export default function Checkout() {
+  usePageTitle('Buyurtma berish')
   const { items, count, originalTotal, savings, total, clearCart } = useCart()
   const navigate = useNavigate()
   const [values, setValues] = useState({ name: '', phone: '', city: '', address: '', payment: 'cash', note: '' })
@@ -115,7 +118,7 @@ export default function Checkout() {
     <section>
       <h1 className="text-3xl font-bold">Buyurtmani rasmiylashtirish</h1>
 
-      <div className="mt-6 grid gap-8 lg:grid-cols-[1fr_22rem]">
+      <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_22rem]">
         <form onSubmit={handleSubmit} noValidate className="space-y-5">
           <div className="grid gap-5 sm:grid-cols-2">
             <Field id="name" label="Ismingiz" error={errors.name}>
@@ -188,7 +191,7 @@ export default function Checkout() {
           <ul className="mb-4 space-y-3">
             {items.map((item) => (
               <li key={item.id} className="flex items-center gap-3 text-sm">
-                <img
+                <SafeImage
                   src={item.thumbnail}
                   alt=""
                   className="h-12 w-12 shrink-0 rounded-md bg-slate-100 object-contain p-1 dark:bg-slate-800"

@@ -1,8 +1,11 @@
 import { Link } from 'react-router'
 import CategoryChips from '../components/CategoryChips'
 import ProductSection from '../components/ProductSection'
+import { usePageTitle } from '../hooks/usePageTitle'
 
 export default function Home() {
+  usePageTitle()
+
   return (
     <div className="space-y-12">
       {/* Banner */}

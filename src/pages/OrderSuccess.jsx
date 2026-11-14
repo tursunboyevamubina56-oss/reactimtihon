@@ -1,4 +1,5 @@
 import { Link, Navigate, useLocation } from 'react-router'
+import { usePageTitle } from '../hooks/usePageTitle'
 import { formatPrice } from '../utils/format'
 
 const PAYMENT_LABELS = {
@@ -9,6 +10,7 @@ const PAYMENT_LABELS = {
 // Buyurtma ma'lumoti Checkout sahifasidan navigate(state) orqali keladi.
 // Sahifa to'g'ridan-to'g'ri ochilsa (state yo'q) — bosh sahifaga qaytariladi.
 export default function OrderSuccess() {
+  usePageTitle('Buyurtma qabul qilindi')
   const { state } = useLocation()
   if (!state?.orderId) return <Navigate to="/" replace />
 

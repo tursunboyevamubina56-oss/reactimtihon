@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import SafeImage from './SafeImage'
 
 // Katta rasm + pastda kichik rasmlar. Bitta rasm bo'lsa kichiklari ko'rsatilmaydi.
 // Mahsulot almashganda sahifa key={product.id} bilan qayta yaratadi, shuning uchun tanlov boshiga qaytadi.
@@ -8,7 +9,7 @@ export default function ProductGallery({ images, title }) {
   return (
     <div>
       <div className="aspect-square overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-800">
-        <img src={images[selected]} alt={title} className="h-full w-full object-contain p-6" />
+        <SafeImage src={images[selected]} alt={title} className="h-full w-full object-contain p-6" />
       </div>
 
       {images.length > 1 && (
@@ -26,7 +27,7 @@ export default function ProductGallery({ images, title }) {
                     : 'border-transparent hover:border-slate-300 dark:hover:border-slate-600'
                 }`}
               >
-                <img src={src} alt="" loading="lazy" className="h-full w-full object-contain p-1" />
+                <SafeImage src={src} alt="" loading="lazy" className="h-full w-full object-contain p-1" />
               </button>
             </li>
           ))}

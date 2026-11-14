@@ -6,6 +6,7 @@ import ProductCard from '../components/ProductCard'
 import ProductCardSkeleton from '../components/ProductCardSkeleton'
 import SearchBox from '../components/SearchBox'
 import { useFetch } from '../hooks/useFetch'
+import { usePageTitle } from '../hooks/usePageTitle'
 
 // Saralash variantlari. value — URL'dagi "sortBy:order" ko'rinishi
 // (Bosh sahifadagi "Hammasini ko'rish" havolalari ham shu qiymatlarni ishlatadi).
@@ -22,6 +23,7 @@ const selectClass =
   'h-11 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm outline-none transition-colors focus:border-indigo-600 dark:border-slate-700 dark:bg-slate-900 dark:focus:border-indigo-400'
 
 export default function Catalog() {
+  usePageTitle('Katalog')
   const [searchParams, setSearchParams] = useSearchParams()
 
   // Hamma filtr URL'dan o'qiladi: /products?q=phone&category=smartphones&sortBy=price&order=asc&page=2

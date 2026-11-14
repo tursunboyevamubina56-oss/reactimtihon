@@ -1,6 +1,9 @@
 import { Link } from 'react-router'
+import { usePageTitle } from '../hooks/usePageTitle'
 
 export default function NotFound() {
+  usePageTitle('Sahifa topilmadi')
+
   return (
     <section className="py-16 text-center">
       <p className="text-6xl font-bold text-indigo-600 dark:text-indigo-400">404</p>

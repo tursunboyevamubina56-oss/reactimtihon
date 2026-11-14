@@ -3,6 +3,7 @@ import { formatPrice, getFinalPrice } from '../utils/format'
 import AddToCartButton from './AddToCartButton'
 import FavoriteButton from './FavoriteButton'
 import { StarIcon } from './icons'
+import SafeImage from './SafeImage'
 
 export default function ProductCard({ product }) {
   const { id, title, price, discountPercentage, rating, thumbnail, brand, category } = product
@@ -16,7 +17,7 @@ export default function ProductCard({ product }) {
     <div className="group relative flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white transition-shadow hover:shadow-lg dark:border-slate-800 dark:bg-slate-900">
       <Link to={`/products/${id}`} className="flex flex-1 flex-col">
         <div className="relative aspect-square bg-slate-100 dark:bg-slate-800">
-          <img
+          <SafeImage
             src={thumbnail}
             alt={title}
             loading="lazy"

@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Link, useParams } from 'react-router'
 import { getProduct, NOT_FOUND_MESSAGE } from '../api/products'
 import ErrorMessage from '../components/ErrorMessage'
@@ -8,6 +7,7 @@ import RelatedProducts from '../components/RelatedProducts'
 import ReviewList from '../components/ReviewList'
 import StarRating from '../components/StarRating'
 import { useFetch } from '../hooks/useFetch'
+import { usePageTitle } from '../hooks/usePageTitle'
 import { formatCategory, formatPrice, getFinalPrice } from '../utils/format'
 import {
   getAvailability,
@@ -36,13 +36,10 @@ export default function ProductDetail() {
   const { id } = useParams()
   const { data: product, loading, error, retry } = useFetch((signal) => getProduct(id, signal), [id])
 
-  // Brauzer yorlig'ida mahsulot nomi ko'rinadi
-  useEffect(() => {
-    document.title = product && !loading ? `${product.title} — Do'kon` : "Do'kon"
-    return () => {
-      document.title = "Do'kon"
-    }
-  }, [product, loading])
+  // Brauzer yorlig'ida mahsulot nomi ko'rinadi (yuklanayotganda eski mahsulot nomi qolib ketmaydi)
+  usePageTitle(
+    error === NOT_FOUND_MESSAGE ? 'Mahsulot topilmadi' : product && !loading ? product.title : undefined,
+  )
 
   if (error === NOT_FOUND_MESSAGE) {
     return (
