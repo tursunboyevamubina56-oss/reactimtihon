@@ -5,12 +5,14 @@ import { useEffect, useRef, useState } from 'react'
 // qaytadan yuklanadi. Oldingi so'rov bekor qilinadi (tez-tez yozilgan qidiruvda eski javob
 // yangisini bosib ketmasin).
 //
-// Qaytaradi: { data, loading, error }
+// Qaytaradi: { data, loading, error, retry }
 // Yangi so'rov ketayotganda data — oldingi natija bo'lib qoladi (sahifa almashganda
 // ekran bo'sh qolmasligi uchun), loading esa true bo'ladi.
+// retry() — xatodan keyin so'rovni qaytadan yuboradi.
 export function useFetch(fetcher, deps = []) {
   // result qaysi so'rov (key) uchun kelganini ham eslab qoladi
   const [result, setResult] = useState({ key: null, data: null, error: null })
+  const [attempt, setAttempt] = useState(0)
 
   // fetcher har renderda yangi funksiya bo'ladi, shuning uchun uni ref'da saqlaymiz
   const fetcherRef = useRef(fetcher)
@@ -18,8 +20,8 @@ export function useFetch(fetcher, deps = []) {
     fetcherRef.current = fetcher
   })
 
-  // deps ni bitta matnga aylantiramiz: faqat qiymat o'zgargandagina qayta yuklanadi
-  const key = JSON.stringify(deps)
+  // deps va urinish raqamini bitta matnga aylantiramiz: faqat qiymat o'zgargandagina qayta yuklanadi
+  const key = JSON.stringify([...deps, attempt])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -40,5 +42,6 @@ export function useFetch(fetcher, deps = []) {
     data: result.data,
     loading,
     error: loading ? null : result.error,
+    retry: () => setAttempt((n) => n + 1),
   }
 }
